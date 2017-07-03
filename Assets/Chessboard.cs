@@ -15,7 +15,7 @@ public class Chessboard : MonoBehaviour {
                 grid[i, j].transform.position = new Vector3(i + 0.5f, j + 0.5f, 0);
                 grid[i, j].transform.parent = this.transform;
                 grid[i, j].name = string.Format("Kachel({0},{1})", i, j);
-                if (Random.Range(0.0f, 1.0f) <= 0.5f) {
+                if (Random.Range(0.0f, 1.0f) <= 0.8f) {
                     SetAlive(i, j, true);
                 }
             }
@@ -65,6 +65,9 @@ public class Chessboard : MonoBehaviour {
     }
 
     public bool IsAlive(int col, int row) {
+        if (col < 0 || row < 0 || col >= size || row >= size) {
+            return false;
+        }
         return grid[col, row].GetComponent<Renderer>().material.color == Color.blue;
     }
 

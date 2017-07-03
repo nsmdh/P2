@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class Character : MonoBehaviour {
 
-    public int col;
-    public int row;
+    public IndexPaar pos;
     public Chessboard board;
 
     // Use this for initialization
     void Start() {
         transform.localScale = new Vector3(0.2f, 0.2f, 1.0f);
-        transform.position = board.GetFieldCenter(col, row);
+        transform.position = board.GetFieldCenter(pos.col, pos.row);
     }
 
     // Update is called once per frame
@@ -19,23 +18,16 @@ public class Character : MonoBehaviour {
 
     }
 
-    public void MoveLeft() {
-        col--;
-        transform.position = board.GetFieldCenter(col, row);
+    public void Move(Direction direction) {
+        IndexPaar newPos = pos.GetNeighbour(direction);
+        UpdatePos(newPos);
     }
 
-    public void MoveRight() {
-        col++;
-        transform.position = board.GetFieldCenter(col, row);
-    }
-
-    public void MoveUp() {
-        row++;
-        transform.position = board.GetFieldCenter(col, row);
-    }
-
-    public void MoveDown() {
-        row--;
-        transform.position = board.GetFieldCenter(col, row);
+    void UpdatePos(IndexPaar pos) {
+        if (!board.IsAlive(pos.col, pos.row)) {
+            return;
+        }
+        this.pos = pos;
+        transform.position = board.GetFieldCenter(pos.col, pos.row);
     }
 }
